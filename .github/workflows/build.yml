@@ -35,7 +35,7 @@ jobs:
       - name: Generate posts.json, sitemap.xml and standalone pages
         shell: bash
         run: |
-          SITE_URL='https://syerain.github.io/NIE-Higan-Blog' python3 build.py
+          SITE_URL='https://syerain.github.io' python3 build.py
 
       - name: Commit and Push
         shell: bash
