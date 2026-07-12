@@ -1,5 +1,17 @@
 [
   {
+    "file": "2026-07-13-Nothin: go get 为什么会标 indirect.md",
+    "title": "Nothin: go get 为什么会标 indirect",
+    "date": "2026-07-13",
+    "category": "默认",
+    "tags": [],
+    "word_count": 144,
+    "content": "",
+    "summary": "起因是刚开始学 go，发现项目 go.mod 里的包默认都标了 // indirect 百思不得其解，后来发现，每次加新包时 go get 都是显然跑在实际调用之前，所以当 go get 拿到包之后，代码还没开始写呢，所以包就被标成 indirect 了... 也算是过度依赖 ide 各种自动补全的表现？",
+    "top": 0,
+    "url": "/p/2026-07-13-Nothin: go get 为什么会标 indirect/"
+  },
+  {
     "file": "2026-07-12-貌似配置不大对.md",
     "title": "貌似配置不大对",
     "date": "2026-07-12",
