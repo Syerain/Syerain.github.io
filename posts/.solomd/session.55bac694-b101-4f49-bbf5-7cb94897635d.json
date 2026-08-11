@@ -1,0 +1,22 @@
+{
+  "device_id": "55bac694-b101-4f49-bbf5-7cb94897635d",
+  "device_label": "MacIntel",
+  "saved_at": 1786422625,
+  "active_index": 1,
+  "tabs": [
+    {
+      "file_path": null,
+      "file_name": "Untitled.md",
+      "cursor_line": null,
+      "cursor_col": null,
+      "rel_path": null
+    },
+    {
+      "file_path": "/Users/yulin/Gitrepo/syerain.github.io/posts/2026-08-10-折腾：利用CVE-2026-43499实现aarch64设备临时提权root的尝试.md",
+      "file_name": "2026-08-10-折腾：利用CVE-2026-43499实现aarch64设备临时提权root的尝试.md",
+      "cursor_line": null,
+      "cursor_col": null,
+      "rel_path": "2026-08-10-折腾：利用CVE-2026-43499实现aarch64设备临时提权root的尝试.md"
+    }
+  ]
+}
