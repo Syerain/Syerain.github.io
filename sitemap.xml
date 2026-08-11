@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://syerain.github.io/</loc><lastmod>2026-07-12</lastmod></url>
+  <url><loc>https://syerain.github.io/</loc><lastmod>2026-08-11</lastmod></url>
+  <url><loc>https://syerain.github.io/p/2026-08-10-折腾：利用CVE-2026-43499实现aarch64设备临时提权root的尝试/</loc><lastmod>2026-08-10</lastmod></url>
   <url><loc>https://syerain.github.io/p/2026-07-13-Tips：go get 为什么会标 indirect/</loc><lastmod>2026-07-13</lastmod></url>
   <url><loc>https://syerain.github.io/p/2026-07-12-貌似配置不大对/</loc><lastmod>2026-07-12</lastmod></url>
   <url><loc>https://syerain.github.io/p/2025-10-28-古诗文：和王某短句/</loc><lastmod>2025-10-28</lastmod></url>
