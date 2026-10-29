@@ -1,5 +1,17 @@
 [
   {
+    "file": "2026-10-29-技术：CVE-2026-43499在vivo MT6896设备的复现.md",
+    "title": "技术：CVE-2026-43499在vivo MT6896设备的复现",
+    "date": "2026-10-29",
+    "category": "默认",
+    "tags": [],
+    "word_count": 5135,
+    "content": "",
+    "summary": "CVE-2026-43499 exploit We successfully reproduced CVE-2026-43499, aka GhostLock, on vivo's MT6896 device. Since vivo's kernel is highly customized and modified, the standard GKI ap",
+    "top": 0,
+    "url": "/p/2026-10-29-技术：CVE-2026-43499在vivo MT6896设备的复现/"
+  },
+  {
     "file": "2026-10-08-古诗文：无题.md",
     "title": "古诗文：无题",
     "date": "2026-10-08",
