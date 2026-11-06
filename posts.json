@@ -1,5 +1,17 @@
 [
   {
+    "file": "2026-11-06-技术：后认证准入网络中的EvliTwin攻击与固化.md",
+    "title": "技术：后认证准入网络中的EvliTwin攻击与固化",
+    "date": "2026-11-06",
+    "category": "默认",
+    "tags": [],
+    "word_count": 1804,
+    "content": "",
+    "summary": "introduction 我们观察到在许多高校、企业、机关的网络体系中采取一种我们称为“后认证准入(after-authentication permission, AAP)”的网络认证架构，通常表现为： 没有WPA认证策略，设备可以自由接入AP 设备在接入网络后，经过内网系统portal做认证准入 在认证准入前设备网络活动通常被限制，比如访问外网的流量被阻",
+    "top": 0,
+    "url": "/p/2026-11-06-技术：后认证准入网络中的EvliTwin攻击与固化/"
+  },
+  {
     "file": "2026-10-29-技术：CVE-2026-43499在vivo MT6896设备的复现.md",
     "title": "技术：CVE-2026-43499在vivo MT6896设备的复现",
     "date": "2026-10-29",
