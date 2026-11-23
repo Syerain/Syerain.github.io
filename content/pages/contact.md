@@ -2,25 +2,19 @@
 title: 联系
 slug: contact
 date: 2024-10-03 10:00:00
-excerpt: 邮件、仓库 Issue，或者干脆不联系。
+excerpt: 找我的几种方式。
 menuOrder: 3
 ---
 
-## 邮件
-
-`hi@example.com` —— 只确保读完，不保证回复。
-
 ## GitHub
 
-仓库地址：`https://github.com/your-name/tt3-pages`
+<https://github.com/Syerain>
 
-- 纠错：直接开 Issue，附上原文与建议
-- 提问：请描述你试过什么，这比礼貌用语有用
-- 转载：注明出处即可，不需要单独授权
+- 纠错、讨论：直接开 Issue 或 Discussions
+- 文章有问题：欢迎指出，附上下文更高效
 
-## 不接受
+## 其它
 
-- 付费推广与交换链接
-- 「帮我看看这个项目」式的无上下文请求
+Telegram / 其它渠道见旧博客首页的入口；紧急事项走 GitHub 私信。
 
-> 写清楚你要什么，是对彼此时间的尊重。
+> 说清楚你要什么、试过什么，是对彼此时间的尊重。

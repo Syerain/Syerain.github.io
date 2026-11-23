@@ -1,22 +1,25 @@
 {
-	"title": "思辨笔记",
-	"description": "一个关于哲学、注意力与日常判断的博客",
-	"homeHeading": "把想不清楚的事写清楚",
-	"ctaText": "有想推荐的书吗？",
-	"ctaButton": "来聊聊",
+	"title": "a sleepy boy is determined to save the world.",
+	"description": "Syerain's here - a nerd's Blog",
+	"homeHeading": "a sleepy boy is determined to save the world.",
+	"ctaText": "有话想说？",
+	"ctaButton": "去留言",
 	"language": "zh-CN",
 	"postsPerPage": 4,
 	"siteUrl": "https://syrain.github.io",
 	"customDomain": "",
 	"styleVariation": "",
 	"author": {
-		"name": "林深",
-		"description": "把想不清楚的事写下来"
+		"name": "Syerain",
+		"description": "写诗、折腾设备、看内核"
 	},
-	"nav": ["about", "reading", "contact"],
+	"nav": ["about", "guestbook", "contact"],
 	"categories": [
-		{ "name": "观念", "slug": "ideas" },
-		{ "name": "笔记", "slug": "notes" },
-		{ "name": "阅读", "slug": "books" }
+		{ "name": "随笔", "slug": "suibi" },
+		{ "name": "古诗文", "slug": "gushiwen" },
+		{ "name": "技术", "slug": "tech" },
+		{ "name": "Tips", "slug": "tips" },
+		{ "name": "折腾", "slug": "zheteng" },
+		{ "name": "练笔", "slug": "lianbi" }
 	]
 }

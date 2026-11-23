@@ -45,14 +45,28 @@ function removeElement(html, opener) {
 	const idx = html.search(opener);
 	if (idx < 0) return html;
 	const tag = /^<([a-z0-9-]+)/i.exec(html.slice(idx))[1];
+	return removeTagAt(html, idx, tag);
+}
+
+/** 从 start 处开始，把包含 marker 的最近的 tag 元素整段移除 */
+function removeEnclosingElement(html, marker, tag) {
+	const idx = html.indexOf(marker);
+	if (idx < 0) return html;
+	const start = html.lastIndexOf(`<${tag}`, idx);
+	if (start < 0) return html;
+	return removeTagAt(html, start, tag);
+}
+
+/** 在指定位置做同名标签的配平移除 */
+function removeTagAt(html, start, tag) {
 	const re = new RegExp(`<(/?)${tag}\\b[^>]*>`, 'gi');
-	re.lastIndex = idx;
+	re.lastIndex = start;
 	let depth = 0;
 	let m;
 	while ((m = re.exec(html))) {
 		if (m[1] === '/') depth--;
 		else if (!m[0].endsWith('/>')) depth++;
-		if (depth === 0) return html.slice(0, idx) + html.slice(re.lastIndex);
+		if (depth === 0) return html.slice(0, start) + html.slice(re.lastIndex);
 	}
 	return html;
 }
@@ -93,7 +107,14 @@ export async function exportStaticSite(opts) {
 		if (seen.has(urlPath)) continue;
 		seen.add(urlPath);
 		const res = await get(origin + urlPath);
-		const html = res.body;
+		if (res.status !== 200) {
+			// 不把 404 等异常响应导出成页面（链接在源头已纠正，这里只兜底）
+			log(`跳过 ${urlPath} (${res.status})`);
+			continue;
+		}
+		let html = res.body;
+		// WP 用 /p/%postname%/ 固定链接时，get_term_link 生成的归档链接多带 /p/ 前缀，但归档实际在根路径
+		html = html.replace(/\/p\/(tag|category|author|date)\//g, '/$1/');
 		pages.push({ urlPath, html, status: res.status });
 		if (process.env.DUMP_RAW) {
 			const f = path.join(process.env.DUMP_RAW, `${urlPath.replace(/[^a-z0-9]+/gi, '_') || 'root'}.html`);
@@ -163,15 +184,8 @@ export async function exportStaticSite(opts) {
 			.replace(/<style\b[^>]*\/>/gi, '')
 			.replace(/<meta\s+name=["']generator["'][^>]*>/gi, '');
 
-		// 评论表单在静态站不可用 → 换成说明；同时去掉回复链接
-		html = removeElement(html, /<div[^>]*wp-block-post-comments-form[^>]*>/);
-		html = html.replace(/<a\b[^>]*class=['"][^'"]*comment-reply-link[^'"]*['"][^>]*>[\s\S]*?<\/a>/gi, '');
-		if (/wp-block-comments|wp-block-comment-template/.test(html)) {
-			html = html.replace(
-				/(<div class="wp-block-comments[^"]*">)/,
-				'$1<div class="tt3-static-note"><p>评论已关闭。静态站点没有后端，需要互动可以接入 Giscus / Utterances。</p></div>'
-			);
-		}
+		// 评论区（模板部件 <section>）整体移除：静态站无后端，评论功能不做保留
+		html = removeEnclosingElement(html, 'wp-block-comments', 'section');
 
 		// 页脚署名
 		html = html.replace(
@@ -189,8 +203,6 @@ export async function exportStaticSite(opts) {
 			label('Get In Touch', meta.ctaButton || '来聊聊');
 			label('Next Page', '下一页');
 			label('Previous Page', '上一页');
-			label('>Comments<', '>评论<');
-			html = html.replace(/>(\d+) Comments?</g, '>$1 条评论<');
 			label('Page not found', '页面不存在');
 			label('This page could not be found.', '你要找的页面不在这里。');
 			label('placeholder="Search..."', 'placeholder="搜索…"');
@@ -199,8 +211,6 @@ export async function exportStaticSite(opts) {
 			html = html.replace(/(<p[^>]*>)\s*in\s*(<\/p>)/g, '$1分类$2');
 			html = html.replace(/(<p[^>]*>)\s*by\s*(<\/p>)/g, '$1作者$2');
 			html = html.replace(/(<p[^>]*>)\s*Tags:\s*(<\/p>)/g, '$1标签：$2');
-			// 评论计数标题："2 responses to “标题”"
-			html = html.replace(/(\d+) responses to &#8220;/g, '$1 条评论 · &#8220;');
 			html = html.replace(/Category:\s*/g, '分类：');
 			html = html.replace(/Tag:\s*/g, '标签：');
 			html = html.replace(/&#8211; Page (\d+) &#8211;/g, '&#8211; 第 $1 页 &#8211;');
@@ -317,12 +327,22 @@ export async function exportStaticSite(opts) {
 
 	// ---------- 6. 搜索页 / 索引 ----------
 	const posts = meta.posts || [];
-	const searchIndex = posts.map((p) => ({
-		title: p.title,
-		url: `${base}${p.slug}/`,
-		excerpt: (p.excerpt || '').replace(/<[^>]+>/g, '').slice(0, 160),
-		date: p.date || '',
-	}));
+	// 搜索索引：以爬取到的真实 URL 为准（WP 会净化 slug：ASCII 小写、空格转连字符）
+	const sanitizeSlug = (s) => String(s).toLowerCase().trim().replace(/\s+/g, '-');
+	const metaPosts = posts.map((p) => ({ ...p, key: sanitizeSlug(p.slug) }));
+	const searchIndex = out
+		.filter((p) => /^\/\d{4}-\d{2}-\d{2}-/.test(p.urlPath))
+		.map((p) => {
+			// urlPath 是百分号编码形式，匹配元数据前先解码
+			const key = sanitizeSlug(decodeURIComponent(p.urlPath.slice(1, -1)));
+			const meta = metaPosts.find((m) => m.key === key);
+			return {
+				title: meta?.title || key,
+				url: `${base.replace(/\/$/, '')}${p.urlPath}`,
+				excerpt: (meta?.excerpt || '').replace(/<[^>]+>/g, '').slice(0, 160),
+				date: meta?.date || '',
+			};
+		});
 	await fs.mkdir(path.join(outDir, 'assets/js'), { recursive: true });
 	await fs.writeFile(path.join(outDir, 'assets/js/search-index.js'), `window.TT3_INDEX=${JSON.stringify(searchIndex)};\n`, 'utf8');
 

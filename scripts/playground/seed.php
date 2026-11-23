@@ -30,6 +30,18 @@ update_option( 'permalink_structure', '/%postname%/' );
 global $wp_rewrite;
 $wp_rewrite->set_permalink_structure( '/%postname%/' );
 $wp_rewrite->flush_rules( true );
+
+// 作者显示名（Playground 默认是 admin）
+if ( ! empty( $site['author']['name'] ) ) {
+	wp_update_user(
+		array(
+			'ID'           => 1,
+			'display_name' => $site['author']['name'],
+			'nickname'     => $site['author']['name'],
+			'description'  => $site['author']['description'] ?? '',
+		)
+	);
+}
 update_option( 'timezone_string', 'Asia/Shanghai' );
 update_option( 'date_format', 'Y年n月j日' );
 update_option( 'default_comment_status', 'open' );
@@ -145,15 +157,17 @@ foreach ( $seed['posts'] as $post ) {
 		}
 	}
 
-	// 特色图片
+	// 特色图片（cover 为 .cache/seed/covers 里的文件名，coverExt 为扩展名，默认 png）
 	if ( ! empty( $post['cover'] ) ) {
-		$src = $seed_dir . '/covers/' . $post['cover'] . '.png';
+		$ext  = $post['coverExt'] ?? 'png';
+		$mime = 'png' === $ext ? 'image/png' : 'image/jpeg';
+		$src  = $seed_dir . '/covers/' . $post['cover'] . '.' . $ext;
 		if ( file_exists( $src ) ) {
-			$bits = wp_upload_bits( 'cover-' . $post['cover'] . '-' . $post['slug'] . '.png', null, file_get_contents( $src ) );
+			$bits = wp_upload_bits( 'cover-' . $post['slug'] . '.' . $ext, null, file_get_contents( $src ) );
 			if ( empty( $bits['error'] ) ) {
 				$att = wp_insert_attachment(
 					array(
-						'post_mime_type' => 'image/png',
+						'post_mime_type' => $mime,
 						'post_title'     => $post['title'],
 						'post_status'    => 'inherit',
 					),
@@ -185,25 +199,7 @@ foreach ( $seed['posts'] as $post ) {
 	echo 'post: ' . $post['slug'] . ' -> ' . $id . "\n";
 }
 
-/* ---------- 示例评论 ---------- */
-foreach ( $seed['comments'] as $comment ) {
-	$target = get_page_by_path( $comment['post'], OBJECT, 'post' );
-	if ( ! $target ) {
-		continue;
-	}
-	wp_insert_comment(
-		array(
-			'comment_post_ID'      => $target->ID,
-			'comment_author'       => $comment['author'],
-			'comment_author_email' => strtolower( preg_replace( '/\s+/', '', $comment['author'] ) ) . '@example.com',
-			'comment_content'      => $comment['content'],
-			'comment_date'         => $comment['date'],
-			'comment_approved'     => 1,
-			'comment_type'         => 'comment',
-		)
-	);
-	wp_update_comment_count_now( $target->ID );
-}
+// 评论功能已整体移除（静态站无后端）
 if ( $first_post_id ) {
 	clean_post_cache( $first_post_id );
 }

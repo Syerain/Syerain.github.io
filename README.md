@@ -13,9 +13,31 @@ npm run preview   # http://127.0.0.1:4321/tt3-pages/
 ## 写内容
 
 - `content/posts/*.md`：front matter（`title/date/category/tags/excerpt`）+ Markdown 正文，构建时编译成 Gutenberg 区块。
-  - 标签写 `tags: [注意力|attention]` 可以显式指定 ASCII slug（默认中文会变成数字 slug）。
+  - `category` 填 `content/site.json` 里分类的 **slug**（如 `tech`、`gushiwen`）。
+  - 标签写 `tags: [诗词|shici]` 可显式指定 ASCII slug（默认中文名会变成数字 slug）。
+  - 封面默认自动生成抽象渐变图；想用自己的图，把文件放进 `content/covers/`，front matter 写 `cover: 文件名.png`（或 `.jpg`）。
 - `content/pages/*.md`：页面自动组成导航（TT3 的导航块无 ref 时回退为页面列表），`menuOrder` 控制顺序。
-- `content/site.json`：站名、描述、每页篇数、`siteUrl`、`customDomain`、风格变体（`"styleVariation": "marigold"` 等 10 个，见 `theme/twentytwentythree/styles/`）。
+- `content/site.json`：站名、描述、每页篇数、`siteUrl`、`customDomain`、作者、分类表、风格变体（`"styleVariation": "marigold"` 等 10 个，见 `theme/twentytwentythree/styles/`）。
+
+Markdown 子集支持：标题、段落、列表、引用、代码块、表格、分隔线、行内 `code`/**加粗**/*斜体*/[链接]。
+
+## 在 GitHub 网页上直接编辑（不用本地环境）
+
+**可以，日常发文/改文案完全不用 clone。** 推到 `source` 分支的任何提交都会触发 Actions 重新构建并发布，约 3–5 分钟后线上生效：
+
+| 想改什么 | 在网页上改哪里 |
+| --- | --- |
+| 发一篇新文章 | `content/posts/` → Add file → 命名 `2026-12-01-技术：标题.md`，写 front matter + 正文 |
+| 改文章内容/文案 | 直接编辑对应的 `content/posts/*.md`、`content/pages/*.md` |
+| 站名、描述、每页篇数、作者、分类 | `content/site.json` |
+| 文章封面 | 编辑文章时把图片拖进 `content/covers/`（网页上传），front matter 引用 `cover: 文件名.png` |
+| 界面固定文案（404 提示、分页"下一页"等） | `scripts/export.mjs` 里的汉化字符串表 |
+| 主题模板结构（页眉/页脚布局） | `theme/twentytwentythree/parts/*.html`、`templates/*.html`（本质也是文本文件） |
+
+两点注意：
+
+1. **改坏了不会弄挂线上站点**——构建失败时 Actions 不会推 `main`，线上保持上一次成功版本，修好再推即可。
+2. 正文里引用图片请用**绝对 URL**（GitHub 网页上传后 `?raw=true` 链接或任意图床）；相对路径不会被构建器解析。
 
 ## 部署（本仓库当前形态：`Syerain.github.io`）
 
@@ -28,7 +50,7 @@ npm run preview   # http://127.0.0.1:4321/tt3-pages/
 
 ## 静态化的取舍
 
-- 评论表单关闭（评论区保留展示）；要互动接 Giscus/Utterances。
+- 评论区整体移除（TT3 的评论模板部件不再导出）；要互动可接 Giscus/Utterances，或用仓库 Discussions。
 - 搜索是构建期生成的客户端索引（`/search/`）。
 - RSS、后台、WP 插件自然不存在。
 

@@ -80,9 +80,21 @@ async function main() {
 	await fs.rm(SEED_DIR, { recursive: true, force: true });
 	await fs.mkdir(path.join(SEED_DIR, 'covers'), { recursive: true });
 
+	// 封面：front matter 里写 cover: 文件名（content/covers/ 下）则用真图，否则生成抽象渐变图
 	posts.forEach((p, i) => {
-		p.cover = String(i + 1);
-		fss.writeFileSync(path.join(SEED_DIR, 'covers', `${p.cover}.png`), coverPng(i + 1));
+		let coverName = String(i + 1);
+		let coverExt = 'png';
+		const custom = String(p.cover || '').trim();
+		const customPath = path.join(ROOT, 'content/covers', custom);
+		if (custom && /\.(png|jpe?g)$/i.test(custom) && fss.existsSync(customPath)) {
+			coverExt = path.extname(custom).slice(1).toLowerCase();
+			coverName = `c-${i + 1}`;
+			fss.copyFileSync(customPath, path.join(SEED_DIR, 'covers', `${coverName}.${coverExt}`));
+		} else {
+			fss.writeFileSync(path.join(SEED_DIR, 'covers', `${coverName}.png`), coverPng(i + 1));
+		}
+		p.coverFile = coverName;
+		p.coverExt = coverExt;
 	});
 
 	const seed = {
@@ -94,7 +106,8 @@ async function main() {
 			excerpt: p.excerpt,
 			category: p.category,
 			tags: p.tags,
-			cover: String(i + 1),
+			cover: p.coverFile,
+			coverExt: p.coverExt,
 			content: p.content,
 		})),
 		pages: pages.map((p) => ({
@@ -105,20 +118,6 @@ async function main() {
 			content: p.content,
 			menuOrder: p.menuOrder,
 		})),
-		comments: [
-			{
-				post: posts[0]?.slug || '',
-				author: '阿泽',
-				date: '2025-03-10 14:02:00',
-				content: '「问题是问题的归属」这句挺准。我最近一次争论到最后发现，对方要的是被理解，不是被说服。',
-			},
-			{
-				post: posts[0]?.slug || '',
-				author: 'Momo',
-				date: '2025-03-12 08:31:00',
-				content: '有没有可能有些争论的目的本来就只是确认立场？那样的话重复也不算浪费。',
-			},
-		],
 	};
 	await fs.writeFile(path.join(SEED_DIR, 'seed.json'), JSON.stringify(seed, null, '\t'), 'utf8');
 	log(`内容：${posts.length} 篇文章 / ${pages.length} 个页面`);
@@ -219,6 +218,7 @@ async function main() {
 		process.exit(1);
 	}
 	// 校验：固定链接与模板已生效（否则抓到的会是首页内容）
+	// 注意 URL 保持原样交给 fetch：全量 encodeURIComponent 会让 WP 无法匹配含全角冒号的 post_name
 	const sample = posts[0]?.slug;
 	if (sample) {
 		const probe = await fetch(`${origin}/${sample}/`);
