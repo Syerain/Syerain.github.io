@@ -394,7 +394,8 @@ export async function exportStaticSite(opts) {
 		`
 /* 静态化修正：搜索块的 label 宽度覆盖 screen-reader-text，会让 404 页横向溢出 */
 .wp-block-search__label.screen-reader-text{width:1px!important}
-`;
+` +
+		(meta.siteCss ? `\n/* ===== content/site.css（站点自定义样式）===== */\n${meta.siteCss}\n` : '');
 	await fs.mkdir(path.join(outDir, 'assets/css'), { recursive: true });
 	await fs.writeFile(path.join(outDir, 'assets/css/site.css'), siteCss, 'utf8');
 	await fs.mkdir(path.join(outDir, 'assets/js'), { recursive: true });

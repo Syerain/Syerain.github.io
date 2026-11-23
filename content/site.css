@@ -1,0 +1,44 @@
+/*
+ * 站点自定义样式 —— 构建时追加在主题 CSS 之后，可直接在 GitHub 网页编辑。
+ * 用到的变量来自 Twenty Twenty-Three 的 theme.json：
+ *   --wp--preset--color--secondary  深橄榄绿 #345C00（白底上的强调色）
+ *   --wp--preset--spacing--30 / --40 流式间距档位
+ */
+
+/* ---------- 积累 / 摘抄版式（front matter: layout: accumulation）----------
+   结构：<ul class="wp-block-list accumulation"> <li> <p>行</p> <p>行</p> </li> ...
+   首符由 li::marker 绘制，list-style-position: outside 让它悬挂在左侧，
+   条目内所有行的左边缘因此自然对齐在首符右侧。 */
+.wp-block-list.accumulation {
+	list-style-type: disc; /* 任意非 none 值即可，内容由 ::marker 决定 */
+	list-style-position: outside;
+	padding-left: 2em;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
+.wp-block-list.accumulation > li {
+	margin: 0;
+	padding-left: 0;
+}
+
+/* 大过行：条目之间 */
+.wp-block-list.accumulation > li + li {
+	margin-top: var(--wp--preset--spacing--30);
+}
+
+/* 小过行：同一条目内的各行 */
+.wp-block-list.accumulation > li > p {
+	margin: 0;
+}
+.wp-block-list.accumulation > li > p + p {
+	margin-top: 0.5em;
+}
+
+/* 首符。outside 模式下 marker 紧贴内容右对齐，padding-left 不会改变二者间距，
+   所以用不换行空格（\00a0）把符号往左推——两个 \00a0 ≈ 0.55em。 */
+.wp-block-list.accumulation > li::marker {
+	content: "∅\00a0\00a0";
+	color: var(--wp--preset--color--secondary);
+	font-weight: 400;
+}

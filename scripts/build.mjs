@@ -6,7 +6,7 @@ import path from 'node:path';
 import net from 'node:net';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { markdownToBlocks, splitFrontMatter } from '../lib/markdown.mjs';
+import { markdownToBlocks, splitFrontMatter, accumulationToBlocks } from '../lib/markdown.mjs';
 import { coverPng } from '../lib/png.mjs';
 import { exportStaticSite } from './export.mjs';
 
@@ -35,6 +35,8 @@ async function listMarkdown(dir) {
 			date: data.date || '2024-01-01 00:00:00',
 			excerpt: data.excerpt || '',
 			category: data.category || '',
+			layout: data.layout || '',
+			mark: data.mark || '∅',
 			tags: (Array.isArray(data.tags) ? data.tags : data.tags ? String(data.tags).split(',') : [])
 				.map((t) => String(t).trim())
 				.filter(Boolean)
@@ -44,7 +46,10 @@ async function listMarkdown(dir) {
 				}),
 			cover: data.cover || '',
 			menuOrder: Number(data.menuOrder || 0),
-			content: markdownToBlocks(body),
+			content:
+				data.layout === 'accumulation'
+					? accumulationToBlocks(body, { mark: data.mark || '∅' })
+					: markdownToBlocks(body),
 		});
 	}
 	return items;
@@ -237,6 +242,11 @@ async function main() {
 	log(`WordPress 就绪（${((Date.now() - t0) / 1000).toFixed(1)}s）`);
 
 	/* ---------- 5. 静态化 ---------- */
+	// 站点自定义样式（content/site.css，可直接在 GitHub 网页编辑），追加在主题 CSS 之后
+	let siteCss = '';
+	try {
+		siteCss = await fs.readFile(path.join(ROOT, 'content/site.css'), 'utf8');
+	} catch {}
 	const basePath =
 		process.env.BASE_PATH !== undefined
 			? process.env.BASE_PATH
@@ -259,6 +269,7 @@ async function main() {
 			homeHeading: site.homeHeading || '',
 			ctaText: site.ctaText || '',
 			ctaButton: site.ctaButton || '',
+			siteCss,
 			siteUrl: site.siteUrl,
 			customDomain: site.customDomain,
 			ogImage: '',
