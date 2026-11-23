@@ -217,14 +217,19 @@ async function main() {
 		cleanup();
 		process.exit(1);
 	}
-	// 校验：固定链接与模板已生效（否则抓到的会是首页内容）
-	// 注意 URL 保持原样交给 fetch：全量 encodeURIComponent 会让 WP 无法匹配含全角冒号的 post_name
-	const sample = posts[0]?.slug;
-	if (sample) {
-		const probe = await fetch(`${origin}/${sample}/`);
-		const body = await probe.text();
+	// 校验：固定链接与模板已生效（否则抓到的会是首页内容）。
+	// 不自己拼 URL——WP 会净化 slug（ASCII 小写、空格转连字符），直接取首页上 WP 生成的第一条文章链接来探测。
+	const homeHtml = await (await fetch(origin + '/')).text();
+	const firstPostHref = /<h2 class="wp-block-post-title"><a href="([^"]+)"/.exec(homeHtml)?.[1];
+	if (posts.length && !firstPostHref) {
+		console.error('模板校验失败：首页没有渲染出任何文章链接');
+		cleanup();
+		process.exit(1);
+	}
+	if (firstPostHref) {
+		const body = await (await fetch(firstPostHref)).text();
 		if (!body.includes('wp-block-post-content')) {
-			console.error(`模板校验失败：/${sample}/ 未渲染 single 模板（固定链接可能未生效）`);
+			console.error(`模板校验失败：${firstPostHref} 未渲染 single 模板（固定链接可能未生效）`);
 			cleanup();
 			process.exit(1);
 		}
