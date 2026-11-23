@@ -1,23 +1,21 @@
-name: Build & Deploy to GitHub Pages
+name: Build & Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [source]
   workflow_dispatch:
 
-# GITHUB_TOKEN 权限：读代码 + 写 Pages
 permissions:
-  contents: read
+  contents: write # 把构建产物推到 main
   pages: write
   id-token: write
 
-# 串行部署，避免并发推送互相覆盖
 concurrency:
-  group: pages
+  group: pages-deploy
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -30,34 +28,51 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # <用户名>.github.io 仓库发布在根路径；普通仓库发布在 /<仓库名>/ 下
+      - name: Compute site URL / base path
+        shell: bash
+        run: |
+          if [[ "${{ github.event.repository.name }}" == *.github.io ]]; then
+            echo "SITE_URL=https://${{ github.repository_owner }}.github.io" >> "$GITHUB_ENV"
+            echo "BASE_PATH=/" >> "$GITHUB_ENV"
+          else
+            echo "SITE_URL=https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}" >> "$GITHUB_ENV"
+            echo "BASE_PATH=/${{ github.event.repository.name }}/" >> "$GITHUB_ENV"
+          fi
+
       - name: Build static site
         env:
-          # 项目站点（用户名.github.io/<仓库名>/）需要子路径前缀；
-          # 用自定义域名或 <用户名>.github.io 仓库时改为 BASE_PATH: "/"
-          BASE_PATH: /${{ github.event.repository.name }}/
+          BASE_PATH: ${{ env.BASE_PATH }}
         run: |
-          # 把 Pages 的正式地址写进 canonical/OG 标签
-          SITE_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
           node -e "
             const fs=require('fs');
-            const p='content/site.json';
-            const j=JSON.parse(fs.readFileSync(p,'utf8'));
+            const j=JSON.parse(fs.readFileSync('content/site.json','utf8'));
             j.siteUrl=process.env.SITE_URL;
-            fs.writeFileSync(p,JSON.stringify(j,null,'\t'));
+            fs.writeFileSync('content/site.json',JSON.stringify(j,null,'\t'));
           "
           npm run build
 
+      # 主通道：main 分支 = 构建产物（Pages「从分支部署」模式直接生效）
+      - name: Publish dist → main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          cd dist
+          git init -q -b main
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -qm "deploy: ${GITHUB_SHA:0:7}"
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          git push -qf origin main
+
+      # 备用通道：若 Pages 配置为「GitHub Actions」模式则用这条；分支模式下此步会失败但不影响上面
       - name: Upload artifact
+        continue-on-error: true
         uses: actions/upload-pages-artifact@v3
         with:
           path: dist
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
+      - name: Deploy (Pages API)
+        continue-on-error: true
         uses: actions/deploy-pages@v4

@@ -17,11 +17,14 @@ npm run preview   # http://127.0.0.1:4321/tt3-pages/
 - `content/pages/*.md`：页面自动组成导航（TT3 的导航块无 ref 时回退为页面列表），`menuOrder` 控制顺序。
 - `content/site.json`：站名、描述、每页篇数、`siteUrl`、`customDomain`、风格变体（`"styleVariation": "marigold"` 等 10 个，见 `theme/twentytwentythree/styles/`）。
 
-## 部署
+## 部署（本仓库当前形态：`Syerain.github.io`）
 
-1. 推到 GitHub，仓库 Settings → Pages → Source 选 **GitHub Actions**。
-2. push `main`，`.github/workflows/deploy.yml` 自动构建发布。
-3. 自定义域名 / `用户名.github.io` 仓库：工作流里把 `BASE_PATH` 改成 `"/"`，`site.json` 里填 `siteUrl`（可选 `customDomain` 会生成 `CNAME`）。
+- `source` 分支：**全部源码**（你日常只推这个分支）
+- `main` 分支：**纯构建产物**（由工作流自动覆盖，别手改）
+
+推送 `source` 后 `.github/workflows/deploy.yml` 自动构建并把 `dist/` 强推到 `main`；Pages 用「从分支部署 main/(root)」即可直接生效，若配置为「GitHub Actions」模式也能走备用通道。首次部署后约 1 分钟生效。
+
+换到其它仓库：普通仓库会自动发布到 `/仓库名/` 子路径（工作流里自动判断），无需改任何配置。
 
 ## 静态化的取舍
 
