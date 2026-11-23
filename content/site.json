@@ -1,0 +1,22 @@
+{
+	"title": "思辨笔记",
+	"description": "一个关于哲学、注意力与日常判断的博客",
+	"homeHeading": "把想不清楚的事写清楚",
+	"ctaText": "有想推荐的书吗？",
+	"ctaButton": "来聊聊",
+	"language": "zh-CN",
+	"postsPerPage": 4,
+	"siteUrl": "https://your-name.github.io/tt3-pages",
+	"customDomain": "",
+	"styleVariation": "",
+	"author": {
+		"name": "林深",
+		"description": "把想不清楚的事写下来"
+	},
+	"nav": ["about", "reading", "contact"],
+	"categories": [
+		{ "name": "观念", "slug": "ideas" },
+		{ "name": "笔记", "slug": "notes" },
+		{ "name": "阅读", "slug": "books" }
+	]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "tt3-github-pages",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Export the Twenty Twenty-Three WordPress block theme to a static site for GitHub Pages.",
+  "scripts": {
+    "build": "node scripts/build.mjs"
+  },
+  "devDependencies": {
+    "@wp-playground/cli": "^3.0.0",
+    "playwright": "^1.65.1"
+  }
+}
