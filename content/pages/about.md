@@ -2,11 +2,11 @@
 title: 关于
 slug: about
 date: 2024-10-01 10:00:00
-excerpt: 关于这个博客和笔者。
+excerpt: 关于站点和笔者。
 menuOrder: 1
 ---
 
-Bonjour! 这里是 Syerain 的博客。得闲来随便写点东西。
+`Bonjour!` 这里是 Syerain 的博客。得闲来随便写点东西。
 
 ## 架站
 

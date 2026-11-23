@@ -8,7 +8,7 @@ menuOrder: 3
 
 ## GitHub
 
-<https://github.com/Syerain>
+github.com/Syerain
 
 小菜鸟兼三脚猫一枚，还望各位海涵。
 
