@@ -222,9 +222,13 @@ export async function exportStaticSite(opts) {
 			full.replace(/action=['"][^'"]*['"]/i, `action="${base}search/"`)
 		);
 
-		// 站内绝对链接 → 加 base 前缀
+		// 站内绝对链接 → 加 base 前缀（val 恰为源站根时 rest 为空串，必须回落为 '/'，
+		// 否则会得到 href=""，浏览器把空链接解析为"当前页"）
 		html = html.replace(/\b(href|src|action)=['"]([^'"]+)['"]/gi, (full, attr, val) => {
-			if (val.startsWith(origin)) return `${attr}="${base.replace(/\/$/, '')}${val.slice(origin.length)}"`;
+			if (val.startsWith(origin)) {
+				const rest = val.slice(origin.length) || '/';
+				return `${attr}="${base.replace(/\/$/, '')}${rest}"`;
+			}
 			if (val.startsWith('/') && !val.startsWith('//')) return `${attr}="${base.replace(/\/$/, '')}${val}"`;
 			return full;
 		});
