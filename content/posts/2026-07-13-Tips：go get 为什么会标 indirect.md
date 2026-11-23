@@ -7,7 +7,7 @@ tags: []
 excerpt: 起因是刚开始学 go，发现项目 go.mod 里的包默认都标了 // indirect
 ---
 
-起因是刚开始学 go，发现项目 `go.mod` 里的包默认都标了 `// indirect`
+起因是某次发现项目 `go.mod` 里的包默认都标了 `// indirect`
 
 百思不得其解，后来发现，每次加新包时 `go get` 都是显然跑在实际调用之前，所以当 `go get` 拿到包之后，代码还没开始写呢，所以包就被标成 indirect 了...
 

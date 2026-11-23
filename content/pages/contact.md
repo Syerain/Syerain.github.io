@@ -10,11 +10,11 @@ menuOrder: 3
 
 <https://github.com/Syerain>
 
-- 纠错、讨论：直接开 Issue 或 Discussions
-- 文章有问题：欢迎指出，附上下文更高效
+小菜鸟兼三脚猫一枚，还望各位海涵。
 
-## 其它
+## 邮箱
 
-Telegram / 其它渠道见旧博客首页的入口；紧急事项走 GitHub 私信。
+`zenra0x@moonlink.cc`
 
-> 说清楚你要什么、试过什么，是对彼此时间的尊重。
+`sye_rain@qq.com`
+

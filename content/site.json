@@ -1,17 +1,17 @@
 {
 	"title": "a sleepy boy is determined to save the world.",
 	"description": "Syerain's here - a nerd's Blog",
-	"homeHeading": "a sleepy boy is determined to save the world.",
+	"homeHeading": "love and fervent zeal shall grow.",
 	"ctaText": "有话想说？",
 	"ctaButton": "去留言",
 	"language": "zh-CN",
 	"postsPerPage": 6,
-	"siteUrl": "https://syrain.github.io",
+	"siteUrl": "https://syerain.github.io",
 	"customDomain": "",
 	"styleVariation": "",
 	"author": {
 		"name": "Syerain",
-		"description": "写诗、折腾设备、看内核"
+		"description": "诗歌、机器、温软和爱"
 	},
 	"nav": ["about", "guestbook", "contact"],
 	"categories": [
