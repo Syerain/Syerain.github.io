@@ -42,3 +42,11 @@
 	color: var(--wp--preset--color--secondary);
 	font-weight: 400;
 }
+
+/* ---------- 专栏版式（front matter: layout: column）----------
+   段内换行是 <br>，行距 = line-height；段间距沿用主题 block-gap（1.5rem）。
+   想拉开"段内紧凑 / 段间宽松"的对比，调这两个值： */
+.column-layout p {
+	line-height: 1.6; /* 段内行距 */
+}
+/* .column-layout p + p { margin-top: 2.5rem; } */ /* 段间距，需要比默认更大时打开 */

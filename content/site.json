@@ -20,6 +20,7 @@
 		{ "name": "技术", "slug": "tech" },
 		{ "name": "Tips", "slug": "tips" },
 		{ "name": "折腾", "slug": "zheteng" },
-		{ "name": "练笔", "slug": "lianbi" }
+		{ "name": "练笔", "slug": "lianbi" },
+		{ "name": "专栏", "slug": "column" }
 	]
 }

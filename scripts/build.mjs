@@ -6,7 +6,7 @@ import path from 'node:path';
 import net from 'node:net';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { markdownToBlocks, splitFrontMatter, accumulationToBlocks } from '../lib/markdown.mjs';
+import { markdownToBlocks, splitFrontMatter, accumulationToBlocks, columnToBlocks } from '../lib/markdown.mjs';
 import { coverPng } from '../lib/png.mjs';
 import { exportStaticSite } from './export.mjs';
 
@@ -49,6 +49,8 @@ async function listMarkdown(dir) {
 			content:
 				data.layout === 'accumulation'
 					? accumulationToBlocks(body, { mark: data.mark || '∅' })
+					: data.layout === 'column'
+					? columnToBlocks(body)
 					: markdownToBlocks(body),
 		});
 	}
