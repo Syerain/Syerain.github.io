@@ -65,7 +65,16 @@ layout: column
 
 ### 自定义样式
 
-`content/site.css` 在构建时追加到主题 CSS 之后，所有视觉微调都在这里改（积累版式的间距、首符颜色也在这个文件里）。
+`content/site.css` 在构建时追加到主题 CSS 之后，所有视觉微调都在这里改（积累版式的间距、首符颜色、代码块样式也在这个文件里）。`content/site.css` 里引用字体等文件用**相对路径**（`url(../fonts/xxx.woff2)`），相对于 `dist/assets/css/` 解析，部署到子路径也不受影响。
+
+### 静态资源
+
+`content/static/` 下的所有文件在构建时原样复制到站点根目录（例如 `content/static/assets/fonts/x.woff2` → `/assets/fonts/x.woff2`）。字体、favicon 之类不放文章里的文件都放这里。目前已有 JetBrains Mono（OFL 许可，`assets/fonts/`）。
+
+### 字体约定
+
+- **代码块与行内 `code`**：JetBrains Mono，浅灰底（积累版式除外）
+- **积累版式里的行内 `code`**：不当代码看——渲染为略小的衬线字（Georgia / 宋体），无底色，用来做出处旁注：`∅ 一句话。 ——2026/10/18 \`旅行者一号\``
 
 ## 在 GitHub 网页上直接编辑（不用本地环境）
 

@@ -50,3 +50,57 @@
 	line-height: 1.6; /* 段内行距 */
 }
 /* .column-layout p + p { margin-top: 2.5rem; } */ /* 段间距，需要比默认更大时打开 */
+
+/* ---------- 等宽字体：JetBrains Mono（OFL，文件在 content/static/assets/fonts/）----------
+   url 用相对路径，相对于本文件（dist/assets/css/site.css）解析，不受部署子路径影响。 */
+@font-face {
+	font-family: "JetBrains Mono";
+	src: url(../fonts/JetBrainsMono-Regular.woff2) format("woff2");
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+}
+@font-face {
+	font-family: "JetBrains Mono";
+	src: url(../fonts/JetBrainsMono-Bold.woff2) format("woff2");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+/* ---------- 代码块 ---------- */
+.wp-block-code {
+	background: var(--wp--preset--color--tertiary, #f6f6f6);
+	border-radius: 0;
+	padding: 1.1em 1.3em;
+	font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.875em;
+	line-height: 1.7;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+.wp-block-code code {
+	font-family: inherit;
+	font-size: 1em;
+	background: none;
+	padding: 0;
+	border-radius: 0;
+}
+
+/* 行内 code（非代码块内）：同字体、略小、浅底 */
+:not(pre) > code {
+	font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+	font-size: 0.86em;
+	background: var(--wp--preset--color--tertiary, #f6f6f6);
+	padding: 0.08em 0.35em;
+	border-radius: 0;
+}
+
+/* 积累版式里的行内 `code` 不当代码看：改成略小的衬线字，去掉等宽与底色（像旁注） */
+.wp-block-list.accumulation :not(pre) > code {
+	font-family: Georgia, "Source Serif Pro", "Noto Serif SC", "Songti SC", "SimSun", serif;
+	font-size: 0.88em;
+	background: none;
+	padding: 0;
+	color: inherit;
+}

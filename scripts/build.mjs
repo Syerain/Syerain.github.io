@@ -284,6 +284,22 @@ async function main() {
 		},
 	});
 
+	// content/static/ 原样复制到 dist 根（字体、图片等静态资源；site.css 里用相对路径引用）
+	const staticDir = path.join(ROOT, 'content/static');
+	let staticCount = 0;
+	try {
+		await fs.access(staticDir);
+		await fs.cp(staticDir, path.join(ROOT, 'dist'), { recursive: true });
+		const walk = async (d) => {
+			for (const e of await fs.readdir(d, { withFileTypes: true })) {
+				if (e.isDirectory()) await walk(path.join(d, e.name));
+				else staticCount++;
+			}
+		};
+		await walk(staticDir);
+	} catch {}
+	if (staticCount) log(`静态资源：从 content/static/ 复制 ${staticCount} 个文件`);
+
 	cleanup();
 	await new Promise((r) => setTimeout(r, 300));
 
