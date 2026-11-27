@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name='robots' content='max-image-preview:large' />
+	
+	<title>后认证准入网络中的EvilTwin攻击与固化 &#8211; a sleepy boy is determined to save the world.</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Syerain's here - a nerd's Blog" />
+<link rel="canonical" href="https://Syerain.github.io/2026-11-06-%e6%8a%80%e6%9c%af%ef%bc%9a%e5%90%8e%e8%ae%a4%e8%af%81%e5%87%86%e5%85%a5%e7%bd%91%e7%bb%9c%e4%b8%ad%e7%9a%84eviltwin%e6%94%bb%e5%87%bb%e4%b8%8e%e5%9b%ba%e5%8c%96/" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="后认证准入网络中的EvilTwin攻击与固化 &#8211; a sleepy boy is determined to save the world." />
+<meta property="og:description" content="Syerain's here - a nerd's Blog" />
+<meta property="og:url" content="https://Syerain.github.io/2026-11-06-%e6%8a%80%e6%9c%af%ef%bc%9a%e5%90%8e%e8%ae%a4%e8%af%81%e5%87%86%e5%85%a5%e7%bd%91%e7%bb%9c%e4%b8%ad%e7%9a%84eviltwin%e6%94%bb%e5%87%bb%e4%b8%8e%e5%9b%ba%e5%8c%96/" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="/assets/css/site.css" />
+<script defer src="/assets/js/static.js"></script>
+</head>
+
+<body class="post-template-default single single-post postid-12 single-format-standard wp-embed-responsive">
+
+<div class="wp-site-blocks"><header class="wp-block-template-part">
+<div class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
+	
+	<div class="wp-block-group alignwide is-content-justification-space-between is-layout-flex wp-container-core-group-is-layout-2 wp-block-group-is-layout-flex" style="padding-bottom:var(--wp--preset--spacing--40)">
+		<p class="wp-block-site-title"><a href="/" target="_self" rel="home">a sleepy boy is determined to save the world.</a></p>
+		
+		<div class="wp-block-group is-content-justification-left is-layout-flex wp-container-core-group-is-layout-1 wp-block-group-is-layout-flex">
+			<nav class="is-responsive items-justified-right wp-block-navigation is-content-justification-right is-layout-flex wp-container-core-navigation-is-layout-1 wp-block-navigation-is-layout-flex" aria-label="" 
+		 data-wp-interactive="core/navigation" data-wp-context='{"overlayOpenedBy":{"click":false,"hover":false,"focus":false},"type":"overlay","roleAttribute":"","ariaLabel":"Menu"}'><button aria-haspopup="dialog" aria-label="Open menu" class="wp-block-navigation__responsive-container-open " 
+				data-wp-on-async--click="actions.openMenuOnClick"
+				data-wp-on--keydown="actions.handleMenuKeydown"
+			><svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="7.5" width="16" height="1.5" /><rect x="4" y="15" width="16" height="1.5" /></svg></button>
+				<div class="wp-block-navigation__responsive-container  "  id="modal-1" 
+				data-wp-class--has-modal-open="state.isMenuOpen"
+				data-wp-class--is-menu-open="state.isMenuOpen"
+				data-wp-watch="callbacks.initMenu"
+				data-wp-on--keydown="actions.handleMenuKeydown"
+				data-wp-on-async--focusout="actions.handleMenuFocusout"
+				tabindex="-1"
+			>
+					<div class="wp-block-navigation__responsive-close" tabindex="-1">
+						<div class="wp-block-navigation__responsive-dialog" 
+				data-wp-bind--aria-modal="state.ariaModal"
+				data-wp-bind--aria-label="state.ariaLabel"
+				data-wp-bind--role="state.roleAttribute"
+			>
+							<button aria-label="Close menu" class="wp-block-navigation__responsive-container-close" 
+				data-wp-on-async--click="actions.closeMenuOnClick"
+			><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false"><path d="m13.06 12 6.47-6.47-1.06-1.06L12 10.94 5.53 4.47 4.47 5.53 10.94 12l-6.47 6.47 1.06 1.06L12 13.06l6.47 6.47 1.06-1.06L13.06 12Z"></path></svg></button>
+							<div class="wp-block-navigation__responsive-container-content" 
+				data-wp-watch="callbacks.focusFirstElement"
+			 id="modal-1-content">
+								<ul class="wp-block-navigation__container is-responsive items-justified-right wp-block-navigation"><ul class="wp-block-page-list"><li class="wp-block-pages-list__item wp-block-navigation-item open-on-hover-click"><a class="wp-block-pages-list__item__link wp-block-navigation-item__content" href="/about/">关于</a></li><li class="wp-block-pages-list__item wp-block-navigation-item open-on-hover-click"><a class="wp-block-pages-list__item__link wp-block-navigation-item__content" href="/guestbook/">留言板</a></li><li class="wp-block-pages-list__item wp-block-navigation-item open-on-hover-click"><a class="wp-block-pages-list__item__link wp-block-navigation-item__content" href="/contact/">联系</a></li></ul></ul>
+							</div>
+						</div>
+					</div>
+				</div></nav>
+		</div>
+		
+	</div>
+	
+</div>
+
+</header>
+
+
+<main class="wp-block-group is-layout-flow wp-block-group-is-layout-flow" style="margin-top:var(--wp--preset--spacing--50)">
+	
+	<div class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
+		<figure style="margin-bottom:var(--wp--preset--spacing--50);margin-top:calc(-1 * var(--wp--preset--spacing--50));" class="alignwide wp-block-post-featured-image"><img width="1200" height="800" src="/wp-content/uploads/2026/11/cover-2026-11-06-技术：后认证准入网络中的EvilTwin攻击与固化.png" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="" style="object-fit:cover;" decoding="async" fetchpriority="high" srcset="/wp-content/uploads/2026/11/cover-2026-11-06-技术：后认证准入网络中的EvilTwin攻击与固化.png 1200w, /wp-content/uploads/2026/11/cover-2026-11-06-技术：后认证准入网络中的EvilTwin攻击与固化-300x200.png 300w, /wp-content/uploads/2026/11/cover-2026-11-06-技术：后认证准入网络中的EvilTwin攻击与固化-1024x683.png 1024w, /wp-content/uploads/2026/11/cover-2026-11-06-技术：后认证准入网络中的EvilTwin攻击与固化-768x512.png 768w" sizes="(max-width: 1200px) 100vw, 1200px" /><span class="wp-block-post-featured-image__overlay has-background-dim has-background-dim-50 has-contrast-background-color" style="" aria-hidden="true"></span></figure>
+		<h1 style="margin-bottom:var(--wp--preset--spacing--40);" class="wp-block-post-title">后认证准入网络中的EvilTwin攻击与固化</h1>
+	</div>
+	
+
+	<div class="entry-content wp-block-post-content has-global-padding is-layout-constrained wp-block-post-content-is-layout-constrained">
+<h2 class="wp-block-heading">introduction</h2>
+
+
+
+<p>我们观察到在许多高校、企业、机关的网络体系中采取一种我们称为“后认证准入(after-authentication permission, AAP)”的网络认证架构，通常表现为：</p>
+
+
+
+<ul class="wp-block-list">
+<li>没有WPA认证策略，设备可以自由接入AP</li>
+
+
+<li>设备在接入网络后，经过内网系统portal做认证准入</li>
+
+
+<li>在认证准入前设备网络活动通常被限制，比如访问外网的流量被阻断</li>
+
+</ul>
+
+
+
+<p>本攻击思路是若干既有的安全研究成果在该类后认证准入网络体系上的朴素配合与应用. 我们的工作仅限于技术整合和工程方案落地.</p>
+
+
+
+<h2 class="wp-block-heading">range</h2>
+
+
+
+<p>需要注意的是，本研究只针对windows设备做了实验而未在其他操作系统上验证。这源于windows的wifi自动连接策略——只取ssid而不验证bssid是否归属同一物理设备。</p>
+
+
+
+<p>事实上，windows将相同ssid但不同bssid的wifi源视为同一网络的不同接入点，并且当他们共存时，windows会主动连接到信号更强者。这意味着在极端情况下当攻击者对靶机的信号强度足够高，理论上可以绕过vanap的信号接管设备，即使evilap与vanap共存. 2025 年的一项研究给出了更精细的结论：即使evilap的信号强度（rssi）低于vanap，攻击仍然可以成功。研究者通过对合法ap发起 UDP flooding 和 association flooding，人为制造“合法 AP 过载”的假象，使客户端选择连接 evilAP 的概率提升了 6% 到 14%。这意味着流量层面的干扰同样可以影响客户端的连接决策，并且影响范围可能不止步于windows。</p>
+
+
+
+<p>注意这并不能构成对deauth等传统手段的替代.</p>
+
+
+
+<p>对于运行其他操作系统的设备，本攻击链仍需适配.</p>
+
+
+
+<h2 class="wp-block-heading">attack chain</h2>
+
+
+
+<p>初步攻击链：</p>
+
+
+
+<ul class="wp-block-list">
+<li>攻击者采集vanap的ssid信息并构建evilap</li>
+
+
+<li>evilap路由接入vannet并反向代理网关流量，成为透明中间人</li>
+
+
+<li>evilap对靶机发起evil twin攻击</li>
+
+
+<li>靶机接入evilap后，vannet发起准入认证</li>
+
+
+<li>evilap在认证过程中采集靶机在portal页面输入的敏感信息</li>
+
+</ul>
+
+
+
+<p>到这里，攻击者取得了：</p>
+
+
+
+<ul class="wp-block-list">
+<li>靶机机主实人身份信息</li>
+
+
+<li>靶机物理设备信息</li>
+
+
+<li>portal cookie</li>
+
+
+<li>流量监听能力</li>
+
+
+<li>连接控制能力</li>
+
+
+<li>双向的中间人攻击能力</li>
+
+</ul>
+
+
+
+<p>其中尤其值得注意的是，关于portal后认证流程中涉及的帐密信息，在我们走访的采用AAP系统的样本场所中，普遍地采用与工号(企业)或学号(高校)等实人信息挂钩甚至原文复现的字符串。这无疑有益于攻击者批量地配对设备与机主、实施进一步的恶意行为。</p>
+
+
+
+<h2 class="wp-block-heading">rigidification</h2>
+
+
+
+<p>注意此时攻击者的主动权亟须固化，因为evilap作为透明中间人的状态在靶机断开连接后即失去.。固化需要通过一系列后续的攻击来实现。</p>
+
+
+
+<p>至此我们可以采取的攻击行为包括但不限于：</p>
+
+
+
+<ul class="wp-block-list">
+<li>基于portal cookie会话劫持达到靶机与伪机的孪生共网状态</li>
+
+
+<li>ssl剥离与https降级 (sslstrip)</li>
+
+
+<li>dns注入攻击 -&gt; dns欺骗/污染</li>
+
+
+<li>流量重定向</li>
+
+
+<li>连接管制与抢答</li>
+
+
+<li>dns投毒(意义不大，靶机dns已经被劫持)</li>
+
+
+<li>阻断doh/dot服务器连接以迫使靶机fallback到明文dns query</li>
+
+
+<li>重定向伪装公共doh/dot服务器</li>
+
+
+<li>如果可以安装evilca证书，直接构成信任链攻击</li>
+
+
+<li>HSTS bypass</li>
+
+</ul>
+
+
+
+<p>notice：</p>
+
+
+
+<ul class="wp-block-list">
+<li>靶机具体的wifi连接行为和安全行为仍会受到具体的网卡特性和厂商安全策略影响</li>
+
+
+<li>在公共场合实施该攻击链将涉及信道干扰、目标甄别以及伦理问题</li>
+
+</ul>
+
+
+
+<h2 class="wp-block-heading">transmitter</h2>
+
+
+
+<p>移动发射端方面，绝大部分windows移动笔电上搭载的无线网卡对ap mode和monitor mode的支持都很差；M chip macbook的网卡驱动则几乎完全阻断了ap mode和monitor mode，而社区的三方驱动方案仅做到实验性突破，尚不能达到实用. airGhost这类工具在 M chip macbook 上也只能提供极其有限的功能。</p>
+
+
+
+<p>三个可行的移动解决方案是:</p>
+
+
+
+<ul class="wp-block-list">
+<li>使用树莓派/香橙派这类开发板作为发射端，配合主持端使用.</li>
+
+
+<li>使用支持 ap mode 和 monitor mode的USB无线网卡作为发射端并连接到主持端. 主持端可以考虑配置kali的虚拟机直通.</li>
+
+
+<li>使用已经取得root权限的安卓手机作为发射端，配合社区脚本在wifi sta/ap 并发模式下运行. 注意这已经脱离常规工程环境，更偏向实验性测试或后期自动化情境.</li>
+
+</ul>
+</div>
+	<div class="wp-block-template-part">
+
+<div style="height:0" aria-hidden="true" class="wp-block-spacer"></div>
+
+
+
+<div class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained" style="margin-top:var(--wp--preset--spacing--70)">
+	
+	<hr class="wp-block-separator alignwide has-css-opacity is-style-wide"/>
+	
+
+	
+	<div class="wp-block-columns alignwide has-small-font-size is-layout-flex wp-container-core-columns-is-layout-1 wp-block-columns-is-layout-flex" style="margin-top:var(--wp--preset--spacing--30)">
+		
+		<div class="wp-block-column is-layout-flow wp-container-core-column-is-layout-1 wp-block-column-is-layout-flow">
+			
+			<div class="wp-block-group is-layout-flex wp-container-core-group-is-layout-5 wp-block-group-is-layout-flex">
+				
+				<p>发布于</p>
+				
+
+				<div class="wp-block-post-date"><time datetime="2026-11-06T09:00:00+08:00">2026年11月6日</time></div>
+
+				
+				<p>分类</p>
+				
+
+				<div class="taxonomy-category wp-block-post-terms"><a href="/category/tech/" rel="tag">技术</a></div>
+			</div>
+			
+
+			
+			<div class="wp-block-group is-layout-flex wp-container-core-group-is-layout-6 wp-block-group-is-layout-flex">
+				
+				<p>作者</p>
+				
+
+				
+			</div>
+			
+		</div>
+		
+
+		
+		<div class="wp-block-column is-layout-flow wp-container-core-column-is-layout-2 wp-block-column-is-layout-flow">
+			
+			<div class="wp-block-group is-vertical is-layout-flex wp-container-core-group-is-layout-7 wp-block-group-is-layout-flex">
+				
+				<p>标签：</p>
+				
+
+				
+			</div>
+			
+		</div>
+		
+	</div>
+	
+</div>
+
+
+</div>
+	
+</main>
+
+
+<footer class="wp-block-template-part">
+
+<div class="wp-block-group has-global-padding is-layout-constrained wp-block-group-is-layout-constrained">
+	
+	<div class="wp-block-group alignwide is-content-justification-space-between is-layout-flex wp-container-core-group-is-layout-11 wp-block-group-is-layout-flex" style="padding-top:var(--wp--preset--spacing--40)">
+		<p class="wp-block-site-title"><a href="/" target="_self" rel="home">a sleepy boy is determined to save the world.</a></p>
+		
+		<p class="has-text-align-right">
+		Static export of <a href="https://wordpress.org/themes/twentytwentythree/" rel="nofollow">Twenty Twenty-Three</a>		</p>
+		
+	</div>
+	
+</div>
+
+
+</footer>
+</div>
+
+
+</body>
+</html>

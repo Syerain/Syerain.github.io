@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://Syerain.github.io/sitemap.xml
